@@ -1,39 +1,42 @@
-import React, { Component } from 'react';
-import './App.css';
-import ToDo from './components/ToDo'
+import React, { Component } from "react";
+import "./App.css";
+import ToDo from './components/ToDo.js';
 
 class App extends Component {
-  constructor(){
-    super()
+  constructor() {
+    super();
+
     this.state = {
-      tasks: [],
-      input: ``
-    }
+      input: ``,
+      tasks: []
+    };
   }
 
-  handleChange(val){
-    this.setState({ input: val })
-  }
+  handleInput = val => {
+    this.setState({ input: val });
+  };
 
-  handleClick = () => {
+  handleSubmit = () => {
+    const {input, tasks} = this.state
     this.setState({
-      tasks: [...this.state.tasks, this.state.input],
-      input: ``
+      tasks: [...tasks, input],
+      input: ""
     })
+    console.log(tasks, input)
   }
 
   render() {
-    let tasks = this.state.tasks.map( (val, i) => {
-      return(
-        <ToDo key={ i } task={ val } />
-      )
+    const {tasks} = this.state;
+    let taskList = tasks.map((task, i) => {
+      return <ToDo key={i} task={task}/>
     })
     return (
       <div className="App">
-        <h1>My To-Do List:</h1>
-        <input placeholder='Enter a new task' onChange={ (e) => this.handleChange(e.target.value) } value={ this.state.input } />
-        <button onClick={ this.handleClick }>Add</button>
-        <h3>{ tasks }</h3>
+        <h1>To Do List:</h1>
+        <input type="text" onChange={e => this.handleInput(e.target.value)} value={this.state.input} />
+        <button onClick={ this.handleSubmit }>Submit</button>
+        <br />
+        <h3>{taskList}</h3>
       </div>
     );
   }
